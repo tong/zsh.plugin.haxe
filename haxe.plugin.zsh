@@ -94,3 +94,14 @@ alias -s hxml=haxe
 ## Find hxml file
 #alias hxmlfind='find . -name "*.hxml" | xargs grep -n'
 alias hxmlfind='find . -name "*.hxml"'
+
+## Target aliases
+alias hxcpp='haxe -cpp'
+alias hxcs='haxe -cs'
+alias hxhl='haxe -hl'
+alias hxjava='haxe -java'
+alias hxjs='haxe -js'
+alias hxneko='haxe -neko'
+alias hxphp='haxe -php'
+alias hxpython='haxe -python'
+alias hxswf='haxe -swf'
