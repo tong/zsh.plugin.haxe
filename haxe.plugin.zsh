@@ -1,17 +1,11 @@
 
 compctl -g "*.hxml" haxe
 
-_haxe_dce_modes=(
-    'std'
-    'full'
-    'no'
-)
-
 __haxe_complete() {
 
-    typeset -a arguments
+    typeset -a params
 
-    arguments+=(
+    params+=(
         -cp'[add a directory to find source files]'
         -js'[compile code to JavaScript file]'
         -lua'[compile code to Lua file]'
@@ -26,7 +20,6 @@ __haxe_complete() {
         -python'[generate Python code as target file]'
         -hl'[compile HL code as target file]'
         -xml'[generate XML types description]'
-        -main'[select startup class]'
         -main'[select startup class]'
         -lib'[use a haxelib library]'
         -D'[define a conditional compilation flag]'
@@ -68,28 +61,28 @@ __haxe_complete() {
         {-help,--help}'[Display this list of options]'
     )
 
-    #_values 'haxe params' ${commands[@]}
-    #compadd -- `__haxelib_list`
-
-#    if (( CURRENT == 2 )); then
-#        _values 'haxe params' ${arguments[@]}
-#        return
-#    fi
-    _values 'haxe params' ${arguments[@]}
-
-    if (( CURRENT == 2 )); then
-        compadd -- `ls *.hxml`
-    fi
-
-    #build_flags=(
-    #    '-lib <library[:version]> : use a haxelib library'
-    #    '-debug : add debug information to the compiled code'
-    #)
+    #if (( CURRENT == 2 )); then
+    #    compadd -- `ls *.hxml`
+    #fi
 
     case ${words[2]} in
-        #-dce)
-        #    _values ${dce_modes[@]}
-        #;;
+        -as3|-cpp|-cs|--cwd|-java|-php)
+            _directories
+        ;;
+        -dce)
+            _haxe_dce_modes=(
+                'std'
+                'full'
+                'no'
+            )
+            _values 'haxe dce modes' ${_haxe_dce_modes[@]}
+        ;;
+        -lib)
+            _values `__haxelib_list`
+        ;;
+        *)
+            _values 'haxe params' ${params[@]} _directories `ls *.hxml`
+        ;;
     esac
 }
 
